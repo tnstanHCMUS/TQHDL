@@ -1,0 +1,43 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  h1 {
+    font-size: 26px;
+    margin-bottom: 30px;
+    color: #222;
+  }
+  
+  h2 {
+    font-size: 20px;
+    margin: 20px 0 10px;
+    color: #444;
+  }
+  
+  .viz-block {
+    margin-bottom: 50px;
+  }
+  
+  svg {
+    background-color: white;
+    border: 1px solid #ccc;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .tooltip {
+    position: absolute;
+    padding: 6px 12px;
+    background: white;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    font-size: 13px;
+    pointer-events: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    opacity: 0;
+  }
+  
