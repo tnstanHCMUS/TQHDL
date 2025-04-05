@@ -1,43 +1,117 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <title>Phân tích dữ liệu bệnh tim</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Trang chủ - Phân tích dữ liệu bệnh tim</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body {
+      background: url("image.jpg") no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+    }
+    .navbar {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 20px 60px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 999;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .navbar .logo {
+      font-size: 22px;
+      font-weight: 700;
+      color: #d60000;
+    }
+    .navbar .logo span { color: #007bff; }
+    .navbar nav a {
+      margin-left: 35px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 600;
+      font-size: 16px;
+      transition: color 0.3s;
+    }
+    .navbar nav a:hover { color: #007bff; }
+    .container {
+      padding: 160px 20px 80px;
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+    }
+    h1 {
+      font-size: 52px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 60px;
+      text-shadow: 5px 5px 12px rgba(0, 0, 0, 0.8);
+    }
+    .card-btn {
+      display: block;
+      background: rgba(255,255,255,0.95);
+      color: #333;
+      border-radius: 12px;
+      padding: 18px 24px;
+      margin: 16px auto;
+      max-width: 500px;
+      text-align: left;
+      font-size: 18px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+    .card-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+      background: #f1f1f1;
+    }
+    .card-btn span { font-size: 22px; margin-right: 10px; }
+    .btn-go {
+      display: inline-block;
+      margin-top: 40px;
+      background: #007bff;
+      color: white;
+      padding: 14px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 600;
+      transition: background 0.3s ease;
+    }
+    .btn-go:hover { background: #0056b3; }
+  </style>
 </head>
 <body>
-    <h1>Phân tích dữ liệu bệnh tim</h1>
+  <div class="navbar">
+    <div class="logo">❤️ Nhóm <span>10</span></div>
+    <nav>
+      <a href="#">Trang chủ</a>
+      <a href="chart.html">Biểu đồ</a>
+      <a href="dataset.html">Dataset</a>
+      <a href="members.html">Thành viên</a>
 
-    <!-- Task 5 -->
-    <section class="viz-block">
-        <h2>So sánh mức cholesterol trung bình giữa người mắc và không mắc bệnh tim</h2>
-        <svg id="chart-task5"></svg>
-    </section>
+    </nav>
+  </div>
 
-    <!-- Task 6 -->
-     <section>
-        <h2>Chỉ số BMI có tương quan với tình trạng bệnh tim không?</h2>
-        <svg id="chart-task6"></svg>
-     </section>
-
-    <!-- Task 7 -->
-    <section class="viz-block">
-        <h2>Tỷ lệ mắc bệnh tim theo tiền sử gia đình</h2>
-        <svg id="chart-task7"></svg>
-    </section>
-
-    <!-- Task 8 -->
-    <section class="viz-block">
-        <h2>So sánh mức cholesterol giữa nam và nữ</h2>
-        <svg id="chart-task8"></svg>
-    </section>
+  <div class="container">
+    <h1>DATA VISUALIZATION USING D3.JS</h1>
+    <a href="#project" class="card-btn"><span>📊</span>Giới thiệu đồ án</a>
+    <a href="dataset.html" class="card-btn"><span>📁</span>Giới thiệu dataset</a>
+    <a href="members.html" class="card-btn"><span>👥</span>Giới thiệu thành viên</a>
+    <a href="chart.html" class="card-btn">
+      📊 Vào trang biểu đồ
+    </a>
     
-    <!-- Gọi cả 2 file JS -->
-    <script src="task5.js"></script>
-    <script src="task6.js"></script>
-    <script src="task7.js"></script>
-    <script src="task8.js"></script>
-
+  </div>
 </body>
 </html>

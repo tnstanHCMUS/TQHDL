@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Thành viên nhóm 10</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background: #f2f4f8;
+    }
+
+    .navbar {
+      padding: 20px 60px;
+      background: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      z-index: 999;
+    }
+
+    .navbar .logo {
+      font-weight: 700;
+      font-size: 22px;
+      color: #00695c;
+    }
+
+    .navbar nav a {
+      margin-left: 30px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 600;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 32px;
+      padding-top: 40px;
+      color: #00695c;
+      text-transform: uppercase;
+      position: relative;
+    }
+
+    h1::after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 4px;
+      background-color: #00bfa5;
+      margin: 12px auto 0;
+      border-radius: 2px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      padding: 20px;
+    }
+
+    .search-bar {
+      text-align: right;
+      padding: 10px 10px 20px;
+    }
+
+    .search-bar input {
+      padding: 12px 20px;
+      border-radius: 10px;
+      border: 1.5px solid #ccc;
+      font-size: 16px;
+      width: 360px;
+      outline: none;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      background-color: #f9f9f9;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+
+    table {
+      width: 100%;
+      min-width: 800px;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
+
+    th {
+      background: #00bfa5;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      text-transform: uppercase;
+    }
+
+    tr:hover {
+      background: #f1f1f1;
+    }
+
+    tr.selected {
+      background: #d1f2eb !important;
+    }
+
+    .btn-back {
+      display: inline-block;
+      margin: 20px 0;
+      background: #444;
+      color: white;
+      padding: 10px 22px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .btn-back:hover {
+      background-color: #222;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="logo">❤️ Nhóm 10</div>
+    <nav>
+      <a href="index.html">Trang chủ</a>
+      <a href="chart.html">Biểu đồ</a>
+      <a href="dataset.html">Dataset</a>
+    </nav>
+  </div>
+
+  <h1>Thành viên nhóm 10</h1>
+
+  <div class="container">
+    <!-- Tìm kiếm -->
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="🔍 Tìm kiếm thành viên...">
+    </div>
+
+    <!-- Bảng thành viên -->
+    <div class="table-wrapper">
+      <table id="member-table">
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Họ và tên</th>
+            <th>MSSV</th>
+            <th>Lớp</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody id="member-body">
+          <tr>
+            <td>1</td>
+            <td>Trần Đan Huy</td>
+            <td>22127163</td>
+            <td>22HTTT1</td>
+            <td>tdhuy22@clc.fitus.edu.vn</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Nguyễn Thị Thu Ngân</td>
+            <td>22127290</td>
+            <td>22HTTT1</td>
+            <td>nttngan22@clc.fitus.edu.vn</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Ôn Gia Bảo</td>
+            <td>22127026</td>
+            <td>22HTTT1</td>
+            <td>ogbao22@clc.fitus.edu.vn</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Lê Nguyễn Gia Bảo</td>
+            <td>22127029</td>
+            <td>22HTTT1</td>
+            <td>lngbao22@clc.fitus.edu.vn</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <a class="btn-back" href="index.html">← Quay lại trang chủ</a>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById("searchInput");
+    const tableBody = document.getElementById("member-body");
+
+    searchInput.addEventListener("input", function () {
+      const keyword = this.value.toLowerCase();
+      const rows = tableBody.querySelectorAll("tr");
+
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(keyword) ? "" : "none";
+      });
+    });
+
+    // Click chọn dòng
+    document.querySelectorAll("tbody tr").forEach(row => {
+      row.addEventListener("click", () => {
+        document.querySelectorAll("tbody tr").forEach(r => r.classList.remove("selected"));
+        row.classList.add("selected");
+      });
+    });
+  </script>
+</body>
+</html>

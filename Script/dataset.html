@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dataset - Phân tích dữ liệu bệnh tim</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background: #f2f4f8;
+    }
+    .navbar {
+      padding: 20px 60px;
+      background: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      z-index: 999;
+    }
+    .navbar .logo {
+      font-weight: 700;
+      font-size: 22px;
+      color: #00695c;
+    }
+    .navbar nav a {
+      margin-left: 30px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 600;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 32px;
+      padding-top: 40px;
+      color: #00695c;
+      text-transform: uppercase;
+      position: relative;
+    }
+    h1::after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 4px;
+      background-color: #00bfa5;
+      margin: 12px auto 0;
+      border-radius: 2px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      padding: 20px;
+    }
+
+    .search-bar {
+      text-align: right;
+      padding: 10px 10px 20px;
+    }
+
+    .search-bar input {
+      padding: 12px 20px;
+      border-radius: 10px;
+      border: 1.5px solid #ccc;
+      font-size: 16px;
+      width: 360px;
+      outline: none;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      background-color: #f9f9f9;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+
+    table {
+      width: 100%;
+      min-width: 1000px;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
+
+    th {
+      background: #00bfa5;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    tr:hover {
+      background: #f1f1f1;
+    }
+
+    tr.selected {
+      background: #d1f2eb !important;
+    }
+
+    .btn-back {
+      display: inline-block;
+      margin: 20px 0;
+      background: #444;
+      color: white;
+      padding: 10px 22px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .btn-back:hover {
+      background-color: #222;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="logo">❤️ Nhóm 10</div>
+    <nav>
+      <a href="index.html">Trang chủ</a>
+      <a href="chart.html">Biểu đồ</a>
+      <a href="#">Dataset</a>
+    </nav>
+  </div>
+
+  <h1>Heart Disease Dataset</h1>
+
+  <div class="container">
+    <!-- Thanh tìm kiếm để làm đẹp -->
+    <div class="search-bar">
+      <input type="text" placeholder="🔍 Tìm kiếm thông tin trong dataset..." readonly>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrapper">
+      <table id="data-table">
+        <thead></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- Back -->
+    <a class="btn-back" href="index.html">← Quay lại trang chủ</a>
+  </div>
+
+  <!-- D3 load data -->
+  <script>
+    d3.csv("project_heart_disease.csv").then(data => {
+      const columns = data.columns || Object.keys(data[0]);
+      const thead = d3.select("thead").append("tr");
+      columns.forEach(col => thead.append("th").text(col));
+
+      const tbody = d3.select("tbody");
+      data.forEach(row => {
+        const tr = tbody.append("tr");
+        tr.on("click", function () {
+          tbody.selectAll("tr").classed("selected", false);
+          d3.select(this).classed("selected", true);
+        });
+        columns.forEach(col => {
+          tr.append("td").text(row[col]);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

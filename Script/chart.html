@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Phân tích dữ liệu bệnh tim</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #f5f7fa;
+    }
+    .navbar {
+      padding: 20px 60px;
+      background: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+    .navbar .logo {
+      font-weight: 700;
+      font-size: 22px;
+      color: #00695c;
+    }
+    .navbar nav a {
+      margin-left: 30px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 600;
+    }
+    .hero {
+      text-align: center;
+      padding: 100px 20px 40px;
+    }
+    .hero h1 {
+      font-size: 42px;
+      font-weight: 800;
+      color: #004d40;
+      position: relative;
+      display: inline-block;
+    }
+    .hero h1::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: #00bfa5;
+      margin: 12px auto 0;
+      border-radius: 4px;
+    }
+    .hero p {
+      font-size: 18px;
+      color: #555;
+      margin-top: 16px;
+      font-style: italic;
+    }
+    .task-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 20px;
+      padding: 0 60px 60px;
+    }
+    .task-btn {
+      background: linear-gradient(to right, #2196f3, #21cbf3);
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s, background 0.3s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .task-btn:hover {
+      transform: translateY(-4px);
+      background: linear-gradient(to right, #1976d2, #00acc1);
+    }
+    .task-section {
+      display: none;
+      padding: 40px 20px;
+      background: white;
+      max-width: 1100px;
+      margin: 0 auto 60px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+    .task-section.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+    .task-section h2 {
+      color: #00695c;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .note-box {
+      margin-top: 20px;
+      padding: 16px;
+      background: #fff3e0;
+      border-left: 6px solid #ffa726;
+      border-radius: 8px;
+      font-size: 15px;
+      color: #5d4037;
+    }
+    .task-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+    .task-nav button {
+      background: #009688;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .task-nav button:hover {
+      background-color: #00796b;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <div class="logo">❤️ Nhóm 10</div>
+    <nav>
+      <a href="index.html">Trang chủ</a>
+      <a href="#">Biểu đồ</a>
+      <a href="dataset.html">Dataset</a>
+    </nav>
+  </div>
+
+  <div class="hero">
+    <h1>PHÂN TÍCH DỮ LIỆU VỚI D3.JS</h1>
+    <p>Chọn một biểu đồ bên dưới để khám phá dữ liệu bệnh tim:</p>
+  </div>
+
+  <div class="task-grid">
+    <button class="task-btn" onclick="showTask('task1')">Task 1</button>
+    <button class="task-btn" onclick="showTask('task2')">Task 2</button>
+    <button class="task-btn" onclick="showTask('task3')">Task 3</button>
+    <button class="task-btn" onclick="showTask('task4')">Task 4</button>
+    <button class="task-btn" onclick="showTask('task5')">Task 5</button>
+    <button class="task-btn" onclick="showTask('task6')">Task 6</button>
+    <button class="task-btn" onclick="showTask('task7')">Task 7</button>
+    <button class="task-btn" onclick="showTask('task8')">Task 8</button>
+  </div>
+
+  <!-- Task Sections -->
+  <div id="task-sections">
+    <!-- Các section được sinh động qua JS -->
+  </div>
+
+  <script>
+    const taskContainer = document.getElementById("task-sections");
+    for (let i = 1; i <= 8; i++) {
+      const section = document.createElement("section");
+      section.className = "task-section";
+      section.id = `task${i}`;
+      section.innerHTML = `
+        <h2>Task ${i}: [Tên biểu đồ]</h2>
+        <svg id="chart-task${i}" width="900" height="500"></svg>
+        <div class="note-box">📌 Nhận xét: Nội dung nhận xét cho biểu đồ Task ${i}.</div>
+        <div class="task-nav">
+          ${i > 1 ? `<button onclick="showTask('task${i - 1}')">◀ Trước</button>` : '<div></div>'}
+          ${i < 8 ? `<button onclick="showTask('task${i + 1}')">Tiếp ▶</button>` : '<div></div>'}
+        </div>
+      `;
+      taskContainer.appendChild(section);
+    }
+
+    function showTask(id) {
+      document.querySelectorAll('.task-section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+    }
+  </script>
+
+  <!-- Script biểu đồ -->
+  <script src="task5.js"></script>
+  <script src="task6.js"></script>
+  <script src="task7.js"></script>
+  <script src="task8.js"></script>
+</body>
+</html>
