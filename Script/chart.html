@@ -82,6 +82,13 @@
       transform: translateY(-4px);
       background: linear-gradient(to right, #1976d2, #00acc1);
     }
+    .bonus-btn {
+      background: linear-gradient(to right, #4caf50, #81c784) !important;
+      color: white !important;
+    }
+    .bonus-btn:hover {
+      background: linear-gradient(to right, #388e3c, #66bb6a) !important;
+    }
     .task-section {
       display: none;
       padding: 40px 20px;
@@ -158,22 +165,35 @@
     <button class="task-btn" onclick="showTask('task6')">Task 6</button>
     <button class="task-btn" onclick="showTask('task7')">Task 7</button>
     <button class="task-btn" onclick="showTask('task8')">Task 8</button>
+    <button class="task-btn bonus-btn" onclick="showTask('bonus')">Bonus</button>
   </div>
 
   <!-- Task Sections -->
-  <div id="task-sections">
-    <!-- Các section được sinh động qua JS -->
-  </div>
+  <div id="task-sections"></div>
+
+  <!-- Bonus Section -->
+  <section class="task-section" id="bonus">
+    <h2>BONUS: Blood Pressure vs BMI by Stress Level and Heart Disease</h2>
+    <svg id="bonus-chart" width="900" height="500"></svg>
+    <div class="note-box">📌 Nhận xét: Phân tích mối quan hệ giữa huyết áp và BMI theo mức độ stress, và tình trạng bệnh tim.</div>
+    <div class="task-nav">
+      <button onclick="showTask('task8')">◀ Trước</button>
+      <div></div>
+    </div>
+  </section>
 
   <script>
-    const taskName = ["Phân bố tình trạng bệnh tim theo các nhóm tuổi khác nhau như thế nào?",
-                      "Giới tính có tương quan với tỷ lệ mắc bệnh tim không?",
-                      "Có mối quan hệ nào giữa tình trạng hút thuốc và bệnh tim không?",
-                      "Thói quen tập thể dục ảnh hưởng như thế nào đến tình trạng bệnh tim?",
-                      "Mức cholesterol thay đổi như thế nào giữa những người có và không có bệnh tim?",
-                      "Chỉ số BMI có tương quan với tình trạng bệnh tim không?",
-                      "Tiền sử gia đình mắc bệnh tim có làm tăng nguy cơ mắc bệnh không?",
-                      "Phân bố mức cholesterol giữa nam và nữ khác nhau như thế nào?"];
+    const taskName = [
+      "Phân bố tình trạng bệnh tim theo các nhóm tuổi khác nhau như thế nào?",
+      "Giới tính có tương quan với tỷ lệ mắc bệnh tim không?",
+      "Có mối quan hệ nào giữa tình trạng hút thuốc và bệnh tim không?",
+      "Thói quen tập thể dục ảnh hưởng như thế nào đến tình trạng bệnh tim?",
+      "Mức cholesterol thay đổi như thế nào giữa những người có và không có bệnh tim?",
+      "Chỉ số BMI có tương quan với tình trạng bệnh tim không?",
+      "Tiền sử gia đình mắc bệnh tim có làm tăng nguy cơ mắc bệnh không?",
+      "Phân bố mức cholesterol giữa nam và nữ khác nhau như thế nào?"
+    ];
+
     const taskContainer = document.getElementById("task-sections");
     for (let i = 1; i <= 8; i++) {
       const section = document.createElement("section");
@@ -185,7 +205,7 @@
         <div class="note-box">📌 Nhận xét: Nội dung nhận xét cho biểu đồ Task ${i}.</div>
         <div class="task-nav">
           ${i > 1 ? `<button onclick="showTask('task${i - 1}')">◀ Trước</button>` : '<div></div>'}
-          ${i < 8 ? `<button onclick="showTask('task${i + 1}')">Tiếp ▶</button>` : '<div></div>'}
+          ${i < 8 ? `<button onclick="showTask('task${i + 1}')">Tiếp ▶</button>` : `<button onclick=\"showTask('bonus')\">Tiếp ▶</button>`}
         </div>
       `;
       taskContainer.appendChild(section);
@@ -193,8 +213,14 @@
 
     function showTask(id) {
       document.querySelectorAll('.task-section').forEach(sec => sec.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.add('active');
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+      if (id === "bonus") {
+        drawBonusChart();
+      }
     }
   </script>
 
@@ -203,5 +229,7 @@
   <script src="task6.js"></script>
   <script src="task7.js"></script>
   <script src="task8.js"></script>
+  <script src="bonus.js"></script>
+
 </body>
 </html>
