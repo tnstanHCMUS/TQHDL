@@ -57,63 +57,26 @@
     }
 
     .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      background: white;
+      text-align: left;
+      font-family: 'Jua';
+      font-weight: 400;
+      font-size: 30px;
+      word-wrap: 'break-word';
+      
+      /* max-width: 1000px; */
+      /* margin: 0 auto; */
+      /* background: white;
       border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05); */
       padding: 20px;
     }
 
-    .search-bar {
-      text-align: right;
-      padding: 10px 10px 20px;
-    }
-
-    .search-bar input {
-      padding: 12px 20px;
-      border-radius: 10px;
-      border: 1.5px solid #ccc;
-      font-size: 16px;
-      width: 360px;
-      outline: none;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      background-color: #f9f9f9;
-    }
-
-    .table-wrapper {
-      overflow-x: auto;
-      max-height: 500px;
-      overflow-y: auto;
-    }
-
-    table {
-      width: 100%;
-      min-width: 800px;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      padding: 12px 16px;
-      border-bottom: 1px solid #eee;
-      font-size: 14px;
-    }
-
-    th {
-      background: #00bfa5;
-      color: white;
-      position: sticky;
-      top: 0;
-      z-index: 1;
-      text-transform: uppercase;
-    }
-
-    tr:hover {
-      background: #f1f1f1;
-    }
-
-    tr.selected {
-      background: #d1f2eb !important;
+    li {
+      margin-left: 30px;
+      margin-right: 40px;
+      margin-bottom: 20px;
+      font-size: 25px;
+      line-height: 1.6;
     }
 
     .btn-back {
@@ -142,58 +105,16 @@
     </nav>
   </div>
 
-  <h1>Thành viên nhóm 10</h1>
+  <h1>Giới thiệu về đồ án</h1>
 
-  <div class="container">
-    <!-- Tìm kiếm -->
-    <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="🔍 Tìm kiếm thành viên...">
-    </div>
+  <ul class="container">
 
-    <!-- Bảng thành viên -->
-    <div class="table-wrapper">
-      <table id="member-table">
-        <thead>
-          <tr>
-            <th>STT</th>
-            <th>Họ và tên</th>
-            <th>MSSV</th>
-            <th>Lớp</th>
-            <th>Email</th>
-          </tr>
-        </thead>
-        <tbody id="member-body">
-          <tr>
-            <td>1</td>
-            <td>Trần Đan Huy</td>
-            <td>22127163</td>
-            <td>22HTTT1</td>
-            <td>tdhuy22@clc.fitus.edu.vn</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Nguyễn Thị Thu Ngân</td>
-            <td>22127290</td>
-            <td>22HTTT1</td>
-            <td>nttngan22@clc.fitus.edu.vn</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Ôn Gia Bảo</td>
-            <td>22127026</td>
-            <td>22HTTT1</td>
-            <td>ogbao22@clc.fitus.edu.vn</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Lê Nguyễn Gia Bảo</td>
-            <td>22127029</td>
-            <td>22HTTT1</td>
-            <td>lngbao22@clc.fitus.edu.vn</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    Đồ án này được thiết kế nhằm giúp sinh viên đạt được các năng lực sau:</br></br>
+    <li>Thể hiện khả năng làm sạch và tiền xử lý tập dữ liệu từ nhiều nguồn khác nhau, đảm bảo tính toàn vẹn dữ liệu và sẵn sàng cho việc trực quan hóa.</li>
+    <li>Áp dụng các nguyên lý cơ bản của trực quan hóa dữ liệu, chẳng hạn như lựa chọn đúng loại biểu đồ và sử dụng mã hóa thị giác phù hợp, để biểu diễn hiệu quả dữ liệu phức tạp.</li>
+    <li>Thể hiện năng lực sử dụng D3.js để tạo ra các biểu đồ động và tương tác, bao gồm cả việc triển khai các tỷ lệ, trục và chuyển tiếp.</li>
+    <li>Diễn giải những hiểu biết dựa trên dữ liệu thông qua trực quan hóa, giúp người xem dễ dàng nắm bắt và hiểu rõ vấn đề ẩn sau những con số.</li>
+  </ul>
 
     <a class="btn-back" href="index.html">← Quay lại trang chủ</a>
   </div>
