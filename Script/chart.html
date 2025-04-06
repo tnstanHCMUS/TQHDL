@@ -43,6 +43,7 @@
       color: #004d40;
       position: relative;
       display: inline-block;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     .hero h1::after {
       content: '';
@@ -63,7 +64,7 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       gap: 20px;
-      padding: 0 60px 60px;
+      padding: 0 240px 60px;
     }
     .task-btn {
       background: linear-gradient(to right, #2196f3, #21cbf3);
@@ -165,13 +166,21 @@
   </div>
 
   <script>
+    const taskName = ["Phân bố tình trạng bệnh tim theo các nhóm tuổi khác nhau như thế nào?",
+                      "Giới tính có tương quan với tỷ lệ mắc bệnh tim không?",
+                      "Có mối quan hệ nào giữa tình trạng hút thuốc và bệnh tim không?",
+                      "Thói quen tập thể dục ảnh hưởng như thế nào đến tình trạng bệnh tim?",
+                      "Mức cholesterol thay đổi như thế nào giữa những người có và không có bệnh tim?",
+                      "Chỉ số BMI có tương quan với tình trạng bệnh tim không?",
+                      "Tiền sử gia đình mắc bệnh tim có làm tăng nguy cơ mắc bệnh không?",
+                      "Phân bố mức cholesterol giữa nam và nữ khác nhau như thế nào?"];
     const taskContainer = document.getElementById("task-sections");
     for (let i = 1; i <= 8; i++) {
       const section = document.createElement("section");
       section.className = "task-section";
       section.id = `task${i}`;
       section.innerHTML = `
-        <h2>Task ${i}: [Tên biểu đồ]</h2>
+        <h2>Task ${i}: ${taskName[i-1]}</h2>
         <svg id="chart-task${i}" width="900" height="500"></svg>
         <div class="note-box">📌 Nhận xét: Nội dung nhận xét cho biểu đồ Task ${i}.</div>
         <div class="task-nav">
