@@ -1,6 +1,6 @@
 function drawBonusChart() {
     const widthBonus = 1000;
-    const heightBonus = 1100;
+    const heightBonus = 1200;
     const marginBonus = { top: 60, right: 100, bottom: 120, left: 70 };
     const chartWidth = 400;
     const chartHeight = 250;
