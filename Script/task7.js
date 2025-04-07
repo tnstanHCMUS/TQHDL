@@ -1,14 +1,14 @@
-const width = 700;
-const height = 550;
-const margin = { top: 40, right: 160, bottom: 100, left: 70 };
+const widthT7 = 700;
+const heightT7 = 550;
+const marginT7 = { top: 40, right: 160, bottom: 100, left: 70 };
 
-const svg = d3.select("#chart-task7")
-    .attr("width", width)
-    .attr("height", height);
+const svgT7 = d3.select("#chart-task7")
+    .attr("width", widthT7)
+    .attr("height", heightT7);
 
-const tooltip = d3.select("body")
+const tooltipT7 = d3.select("body")
     .append("div")
-    .attr("class", "tooltip");
+    .attr("class", "tooltipT7");
 
 d3.csv("project_heart_disease.csv").then(data => {
     data = data.filter(d => {
@@ -16,8 +16,7 @@ d3.csv("project_heart_disease.csv").then(data => {
         return val === "Yes" || val === "No";
     });
 
-    // Gom nhóm và tính phần trăm
-    const nested = d3.rollups(
+    const nestedT7 = d3.rollups(
         data,
         v => {
             const total = v.length;
@@ -31,8 +30,8 @@ d3.csv("project_heart_disease.csv").then(data => {
         d => d["Family Heart Disease"]
     );
 
-    const groups = ["No", "Yes"];
-    const stackedData = nested.map(d => {
+    const groupsT7 = ["No", "Yes"];
+    const stackedDataT7 = nestedT7.map(d => {
         let y0 = 0;
         return d[1].map(s => {
             const item = {
@@ -48,56 +47,53 @@ d3.csv("project_heart_disease.csv").then(data => {
         });
     }).flat();
 
-    const xScale = d3.scaleBand()
-        .domain(groups)
-        .range([margin.left, width - margin.right])
+    const xScaleT7 = d3.scaleBand()
+        .domain(groupsT7)
+        .range([marginT7.left, widthT7 - marginT7.right])
         .padding(0.3);
 
-    const yScale = d3.scaleLinear()
+    const yScaleT7 = d3.scaleLinear()
         .domain([0, 1])
-        .range([height - margin.bottom, margin.top]);
+        .range([heightT7 - marginT7.bottom, marginT7.top]);
 
-    const color = d3.scaleOrdinal()
+    const colorT7 = d3.scaleOrdinal()
         .domain(["No", "Yes"])
-        .range(["#fdb913", "#f05a28"]); // vàng cam và cam đậm
+        .range(["#fdb913", "#f05a28"]);
 
-    // Trục X
-    svg.append("g")
-        .attr("transform", `translate(0, ${height - margin.bottom})`)
-        .call(d3.axisBottom(xScale));
+    svgT7.append("g")
+        .attr("transform", `translate(0, ${heightT7 - marginT7.bottom})`)
+        .call(d3.axisBottom(xScaleT7));
 
-    svg.append("text")
-        .attr("x", width / 2)
-        .attr("y", height - 45)
+    svgT7.append("text")
+        .attr("x", widthT7 / 2)
+        .attr("y", heightT7 - 45)
         .attr("text-anchor", "middle")
         .style("font-size", "16px")
         .text("Tiền sử gia đình mắc bệnh tim");
 
-    // Trục Y
-    svg.append("g")
-        .attr("transform", `translate(${margin.left}, 0)`)
-        .call(d3.axisLeft(yScale).tickFormat(d3.format(".0%")));
+    svgT7.append("g")
+        .attr("transform", `translate(${marginT7.left}, 0)`)
+        .call(d3.axisLeft(yScaleT7).tickFormat(d3.format(".0%")));
 
-    svg.append("text")
+    svgT7.append("text")
         .attr("transform", "rotate(-90)")
-        .attr("x", -height / 2)
+        .attr("x", -heightT7 / 2)
         .attr("y", 20)
         .attr("text-anchor", "middle")
         .style("font-size", "16px")
         .text("Tỷ lệ (%)");
 
-    // Vẽ cột
-    svg.selectAll("rect")
-        .data(stackedData)
+    svgT7.selectAll("rect")
+        .data(stackedDataT7)
         .enter()
         .append("rect")
-        .attr("x", d => xScale(d.group))
-        .attr("y", d => yScale(d.y1))
-        .attr("height", d => yScale(d.y0) - yScale(d.y1))
-        .attr("width", xScale.bandwidth())
-        .attr("fill", d => color(d.status))
+        .attr("x", d => xScaleT7(d.group))
+        .attr("y", d => yScaleT7(d.y1))
+        .attr("height", d => yScaleT7(d.y0) - yScaleT7(d.y1))
+        .attr("width", xScaleT7.bandwidth())
+        .attr("fill", d => colorT7(d.status))
         .on("mouseover", (event, d) => {
-            tooltip
+            tooltipT7
                 .html(`<strong>${d.group}</strong><br/>${d.status}: ${(d.percent * 100).toFixed(1)}%`)
                 .style("left", `${event.pageX + 10}px`)
                 .style("top", `${event.pageY - 28}px`)
@@ -106,29 +102,26 @@ d3.csv("project_heart_disease.csv").then(data => {
                 .style("opacity", 1);
         })
         .on("mouseout", () => {
-            tooltip.transition().duration(300).style("opacity", 0);
+            tooltipT7.transition().duration(300).style("opacity", 0);
         });
 
-    // Hiển thị số liệu phần trăm trên cột
-    svg.selectAll("text.label")
-        .data(stackedData)
+    svgT7.selectAll("text.label")
+        .data(stackedDataT7)
         .enter()
         .append("text")
         .attr("class", "label")
-        .attr("x", d => xScale(d.group) + xScale.bandwidth() / 2)
-        .attr("y", d => yScale((d.y0 + d.y1) / 2))
+        .attr("x", d => xScaleT7(d.group) + xScaleT7.bandwidth() / 2)
+        .attr("y", d => yScaleT7((d.y0 + d.y1) / 2))
         .attr("text-anchor", "middle")
         .style("fill", "black")
         .style("font-size", "13px")
         .text(d => `${(d.percent * 100).toFixed(1)}%`);
 
-    // Legend (góc phải, khung và hình chữ nhật dài)
-    const legendBox = svg.append("g")
-        .attr("transform", `translate(${width - 190}, ${margin.top})`)
+    const legendBoxT7 = svgT7.append("g")
+        .attr("transform", `translate(${widthT7 - 190}, ${marginT7.top})`)
         .attr("class", "legend-box");
 
-    // Khung nền
-    legendBox.append("rect")
+    legendBoxT7.append("rect")
         .attr("width", 160)
         .attr("height", 70)
         .attr("fill", "#fefefe")
@@ -136,25 +129,23 @@ d3.csv("project_heart_disease.csv").then(data => {
         .attr("rx", 6)
         .attr("ry", 6);
 
-    // Tiêu đề
-    legendBox.append("text")
+    legendBoxT7.append("text")
         .attr("x", 10)
         .attr("y", 18)
         .text("Heart Disease Status")
         .style("font-size", "14px")
         .style("font-weight", "bold");
 
-    // Dòng chú thích
-    const items = color.domain(); 
-    items.forEach((key, i) => {
-        legendBox.append("rect")
+    const itemsT7 = colorT7.domain();
+    itemsT7.forEach((key, i) => {
+        legendBoxT7.append("rect")
             .attr("x", 10)
             .attr("y", 25 + i * 20)
             .attr("width", 30)
             .attr("height", 12)
-            .attr("fill", color(key));
+            .attr("fill", colorT7(key));
 
-        legendBox.append("text")
+        legendBoxT7.append("text")
             .attr("x", 45)
             .attr("y", 35 + i * 20)
             .text(key)
