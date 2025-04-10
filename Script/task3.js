@@ -1,3 +1,4 @@
+(() => {
 const width = 700;
 const height = 550;
 const margin = { top: 40, right: 160, bottom: 100, left: 70 };
@@ -174,3 +175,4 @@ d3.csv("project_heart_disease.csv").then(data => {
             .style("font-size", "13px");
     });
 });
+})();
