@@ -5,6 +5,7 @@
   <title>Phân tích dữ liệu bệnh tim</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://d3js.org/d3.v7.min.js"></script>
+
   <style>
     body {
       margin: 0;
@@ -107,15 +108,43 @@
       margin-bottom: 20px;
       text-align: center;
     }
+    
     .note-box {
-      margin-top: 20px;
-      padding: 16px;
-      background: #fff3e0;
-      border-left: 6px solid #ffa726;
-      border-radius: 8px;
-      font-size: 15px;
+      margin-top: 24px;
+      padding: 20px 24px;
+      background: #fff8e1; /* vàng nhạt */
+      border-left: 6px solid #ffb300; /* viền nổi bật */
+      border-radius: 12px;
+      font-size: 14.25px;
+      line-height: 1.5; /* khoảng cách dòng dễ đọc */
+      font-family: 'Noto Sans', sans-serif;
       color: #5d4037;
+      font-weight: 600;
+      text-align: left;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08); /* đổ bóng nhẹ */
+      display: none; /* ban đầu ẩn */
+      animation: fadeIn 0.4s ease;
     }
+    .note-box p {
+      margin: 10px 0;
+    }
+    .note-btn {
+      margin-top: 20px;
+      background: linear-gradient(to right, #ff9800, #ffc107);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .note-btn:hover {
+      background: linear-gradient(to right, #fb8c00, #ffb300);
+      transform: translateY(-2px);
+    }
+
     .task-nav {
       display: flex;
       justify-content: space-between;
@@ -139,7 +168,9 @@
       to { opacity: 1; transform: translateY(0); }
     }
   </style>
+
 </head>
+
 <body>
 
   <div class="navbar">
@@ -168,14 +199,21 @@
     <button class="task-btn bonus-btn" onclick="showTask('bonus')">Bonus</button>
   </div>
 
-  <!-- Task Sections -->
   <div id="task-sections"></div>
 
-  <!-- Bonus Section -->
   <section class="task-section" id="bonus">
     <h2>Bonus: Blood Pressure vs BMI by Stress Level and Heart Disease</h2>
     <svg id="bonus-chart" width="900" height="500"></svg>
-    <div class="note-box">📌 Nhận xét: Phân tích mối quan hệ giữa huyết áp và BMI theo mức độ stress, và tình trạng bệnh tim.</div>
+
+    <button class="note-btn" onclick="toggleNote('note-bonus')">📋 Nhận xét</button>
+    <div class="note-box" id="note-bonus">
+      <li>Mối quan hệ giữa Blood Pressure và BMI tương đối ổn định across các mức độ Stress khác nhau.</li>
+      <li>Người không mắc bệnh tim có xu hướng tập trung mạnh tại khu vực BMI và Blood Pressure trung bình.</li>
+      <li>Người mắc bệnh tim phân bố loãng hơn, trải rộng hơn trên phạm vi BMI và Blood Pressure rộng hơn, thể hiện sự đa dạng hơn trong đặc điểm sinh lý.</li>
+      <li>Stress Level ảnh hưởng đến tổng số lượng bệnh nhân (càng stress cao, số lượng bệnh nhân tổng thể giảm), nhưng không làm thay đổi mạnh mối quan hệ cơ bản giữa Blood Pressure và BMI.</li>
+      <p>→ Nhìn chung, mối quan hệ giữa BMI và Blood Pressure mang tính nhất quán, nhưng sự khác biệt về tình trạng bệnh tim thể hiện qua mức độ tập trung hay phân tán của mật độ bệnh nhân.</p>
+    </div>
+
     <div class="task-nav">
       <button onclick="showTask('task8')">◀ Trước</button>
       <div></div>
@@ -194,22 +232,69 @@
       "Phân bố mức cholesterol giữa nam và nữ khác nhau như thế nào?"
     ];
 
+    const taskComments = [
+    `
+      <p>Nhìn vào biểu đồ Pie Chart, có thể thấy rằng các nhóm tuổi có tỷ lệ mắc bệnh tim tương đối đồng đều, không có nhóm nào chiếm ưu thế áp đảo.</p>
+      <p>Còn đối với Stacked Bar Chart, các nhóm lớn tuổi như Above 70 có xu hướng tỷ lệ mắc bệnh tim nhỉnh hơn các nhóm trẻ tuổi như Under 30 và Under 40.</p>
+      <p>→ Điều này cho thấy bệnh tim có thể ảnh hưởng tới mọi lứa tuổi, nhưng tỷ lệ có xu hướng tăng nhẹ theo tuổi tác.</p>
+    `,
+    `
+      <p>Có thể thấy, tỷ lệ mắc bệnh tim ở nữ giới cao hơn nam giới một chút trong tập dữ liệu này. Tuy nhiên, sự chênh lệch là không quá lớn.</p>
+      <p>→ Điều này gợi ý rằng, trong tập dữ liệu nghiên cứu, giới tính không phải yếu tố tạo ra khác biệt lớn về tỷ lệ mắc bệnh tim.</p>
+    `,
+    `
+      <p>Sự chênh lệch giữa hai nhóm là rất nhỏ (~0.2%), gần như không đáng kể.</p>
+      <p>→ Trong dữ liệu hiện tại, hút thuốc có liên quan rất nhẹ đến bệnh tim, nhưng không đủ mạnh để phân biệt rõ giữa nhóm hút thuốc và không hút thuốc.</p>
+    `,
+    `
+      <p>Tổng số lượng bệnh nhân giữa các nhóm High, Medium, Low là khá tương đương, đều vào khoảng 670 bệnh nhân trên gần 3300 người mỗi nhóm.</p>
+      <p>→ Mức độ vận động không phải yếu tố nổi bật ảnh hưởng đến nguy cơ mắc bệnh tim trong dữ liệu hiện tại.</p>
+    `,
+    `
+      <p>Mức cholesterol trung bình giữa người có bệnh tim và người không có bệnh tim gần như tương đương nhau trong tập dữ liệu này.</p>
+      <p>→ Có thể kết luận rằng cholesterol trung bình không phải yếu tố phân biệt mạnh giữa hai nhóm người trong tập dữ liệu.</p>
+    `,
+    `
+      <p>Người mắc bệnh tim có xu hướng có chỉ số BMI trung bình nhỉnh hơn một chút so với người không mắc bệnh tim.</p>
+      <p>Tuy nhiên, sự chênh lệch không quá lớn, và mức độ phân tán của dữ liệu tương đối đồng đều giữa hai nhóm</p>
+      <p>→ Có thể kết luận rằng chỉ số BMI có liên quan nhẹ đến tình trạng bệnh tim, nhưng không phải là yếu tố phân biệt rõ rệt.</p>
+    `,
+    `
+      <p>Sự chênh lệch tỷ lệ mắc bệnh tim giữa hai nhóm là không đáng kể (chênh lệch chỉ khoảng 0.5%).</p>
+      <p>→ Trong tập dữ liệu hiện tại, tiền sử gia đình mắc bệnh tim không phải là yếu tố ảnh hưởng mạnh đến khả năng mắc bệnh tim.</p>
+    `,
+    `
+      <p>Không có sự chênh lệch đáng kể trong mức cholesterol trung bình và phân phối giữa nam và nữ.</p>
+      <p>→ Từ biểu đồ, ta có thể kết luận rằng giới tính không phải là yếu tố gây ra sự khác biệt lớn trong phân bố mức cholesterol ở tập dữ liệu này.</p>
+    `
+  ];
+
     const taskContainer = document.getElementById("task-sections");
+
     for (let i = 1; i <= 8; i++) {
       const section = document.createElement("section");
       section.className = "task-section";
       section.id = `task${i}`;
+
       section.innerHTML = `
         <h2>Task ${i}: ${taskName[i-1]}</h2>
         <svg id="chart-task${i}" width="900" height="500"></svg>
-        <div class="note-box">📌 Nhận xét: Nội dung nhận xét cho biểu đồ Task ${i}.</div>
+
+        <button class="note-btn" onclick="toggleNote('note-task${i}')">📋 Nhận xét</button>
+
+        <div class="note-box" id="note-task${i}">
+          ${taskComments[i-1]}
+        </div>
+
         <div class="task-nav">
           ${i > 1 ? `<button onclick="showTask('task${i - 1}')">◀ Trước</button>` : '<div></div>'}
-          ${i < 8 ? `<button onclick="showTask('task${i + 1}')">Tiếp ▶</button>` : `<button onclick=\"showTask('bonus')\">Tiếp ▶</button>`}
+          ${i < 8 ? `<button onclick="showTask('task${i + 1}')">Tiếp ▶</button>` : `<button onclick="showTask('bonus')">Tiếp ▶</button>`}
         </div>
       `;
+
       taskContainer.appendChild(section);
-    }
+  }
+
 
     function showTask(id) {
       document.querySelectorAll('.task-section').forEach(sec => sec.classList.remove('active'));
@@ -222,9 +307,23 @@
         drawBonusChart();
       }
     }
+
+    function toggleNote(noteId) {
+      const note = document.getElementById(noteId);
+      if (note.style.display === "none" || note.style.display === "") {
+        note.style.display = "block";
+        note.scrollIntoView({ behavior: "smooth", block: "center" });
+      } else {
+        note.style.display = "none";
+      }
+    }
+
+    function drawBonusChart() {
+      // Placeholder: chỗ này bạn sẽ vẽ biểu đồ bonus bằng D3.js
+    }
   </script>
 
-  <!-- Script biểu đồ -->
+  <!-- Các file JS biểu đồ -->
   <script src="task1.js"></script>
   <script src="task2.js"></script>
   <script src="task3.js"></script>
